@@ -28,3 +28,4 @@ commit_message = f"Auto update {file_path} {datetime.datetime.now():%Y-%m-%d %H:
 subprocess.run(["git", "add", file_path])
 subprocess.run(["git", "commit", "-m", commit_message])
 subprocess.run(["git", "push"])
+print("hi for compare and pull request ")

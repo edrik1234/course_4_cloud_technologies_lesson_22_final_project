@@ -3,7 +3,9 @@ import json
 import os
 import logging
 import print_colors as colors 
-import time
+
+global KNOWS_NAMES
+KNOWS_NAMES = None
 
 
 logging.basicConfig(
@@ -21,9 +23,9 @@ app = Flask(__name__)
 def load_names():
     try:
         with open("config.json") as json_file:
-            my_set = set(json.load(json_file))
-            logging.info("all supported names are " + str(my_set))
-            return my_set
+            KNOWS_NAMES = set(json.load(json_file))
+            logging.info("all supported names are " + str(KNOWS_NAMES))
+            return KNOWS_NAMES
     except(json.JSONDecodeError):
         logging.warning("json decode error maybe empty set, or not valid return type")
     except(FileNotFoundError):
@@ -40,7 +42,7 @@ def hello():
 
 @app.route("/login/<name>")
 def newpath(name):
-    logging.info("all supported names are " + str(my_set))
+    logging.info("all supported names are " + str(KNOWS_NAMES))
     logging.info(f"the user accessed the login with name {name}")
     if name in my_set:
         logging.info(f"name {name} is in list - access granted")
@@ -56,15 +58,14 @@ def newpath(name):
 def addname(name):
     my_set.add(name)
     with open("config.json", "w") as json_file:    
-        json.dump(list(my_set), json_file)
-    time.sleep(2)
+        json.dump(list(KNOWS_NAMES), json_file)
     returned_value =  colors.printGreen(f"name {name} added successfully")
     return returned_value
 
 
 if __name__ == "__main__":
-    global my_set
-    my_set = load_names()
+    global KNOWS_NAMES
+    KNOWS_NAMES = load_names()
     app.run(host = os.environ.get("HOST_IP"), port = 80)
    
 

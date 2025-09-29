@@ -3,9 +3,7 @@ import json
 import os
 import logging
 import print_colors as colors 
-import subprocess
 import time
-import paramiko
 
 
 logging.basicConfig(
@@ -17,25 +15,6 @@ logging.basicConfig(
                 ]     
             )
 app = Flask(__name__)
-
-
-def run_local_command(command):
-    try:
-        # Run the command
-        result = subprocess.run(command, shell = True, check = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE, text = True)
-        if result.stdout:
-            logging.info(result.stdout)
-            return result.stdout.strip()
-        else:
-            logging.error(result.stderr)
-            logging.error("the command isn't executed good")
-            return f'error is:{result.stderr.strip()}'
-
-    except subprocess.CalledProcessError as e:
-        logging.critical(f"{command} return non-zero exit status {e.returncode} and error output {e.stderr}")
-        print(f"Command '{command}' returned non-zero exit status {e.returncode}")
-        print(f"Error output: {e.stderr}")
-        return f"Error: {e.stderr.strip()}"
 
 
 def load_names():

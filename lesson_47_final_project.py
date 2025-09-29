@@ -14,6 +14,7 @@ logging.basicConfig(
         logging.StreamHandler() # Also log to console
                 ]     
             )
+
 app = Flask(__name__)
 
 

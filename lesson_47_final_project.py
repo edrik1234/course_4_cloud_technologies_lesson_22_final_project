@@ -81,6 +81,7 @@ def addname(name):
     returned_value =  colors.printGreen(f"name {name} added successfully")
     return returned_value
 
+
 if __name__ == "__main__":
     global my_set
     my_set = load_names()
